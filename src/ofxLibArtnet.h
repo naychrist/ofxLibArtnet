@@ -22,7 +22,7 @@ public:
     port_id(port_id),
     port_addr(port_addr),
     length(length),
-    data(nullptr)
+    data(NULL)
     {}
     
     int         port_id;    // our id for uni port
@@ -40,7 +40,7 @@ public:
     
     vector<Universe>    unis;
     
-    void setup(int _num_unis = 1, char *_ip_addr = nullptr, uint8_t _subnet_addr = 0)
+    void setup(int _num_unis = 1, char *_ip_addr = NULL, uint8_t _subnet_addr = 0)
     {
         ip_addr = _ip_addr;
         subnet_addr = _subnet_addr;
@@ -61,7 +61,7 @@ public:
         //create universes...
         for (int i=0; i<_num_unis; i++) {
             // create the universe
-            Universe uni(i,i+1,0,nullptr);
+            Universe uni(i,i+1,0,NULL);
             // enable port        
             artnet_set_port_type(artnetNode, uni.port_id, ARTNET_ENABLE_OUTPUT, ARTNET_PORT_DMX);
             // bind port to universe
@@ -84,7 +84,7 @@ public:
     void send()
     {
         
-        //artnet_send_poll(artnetNode, nullptr, ARTNET_TTM_DEFAULT);//to test receiving...
+        //artnet_send_poll(artnetNode, NULL, ARTNET_TTM_DEFAULT);//to test receiving...
         //printf("arnet_get_sd() => %i\n", artnet_get_sd(artnetNode));
         //printf("artnet_read() => %i\n", artnet_read(artnetNode, 1));//works but slows down thread
         
