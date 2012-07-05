@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A7919BDD15A5181500D4F36D /* ofxLibArtnet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A7919BDC15A5181500D4F36D /* ofxLibArtnet.cpp */; };
 		A7CD81E214ECDB6500EC8D7E /* artnet.c in Sources */ = {isa = PBXBuildFile; fileRef = A7CD81D214ECDB6500EC8D7E /* artnet.c */; };
 		A7CD81E414ECDB6500EC8D7E /* misc.c in Sources */ = {isa = PBXBuildFile; fileRef = A7CD81D914ECDB6500EC8D7E /* misc.c */; };
 		A7CD81E514ECDB6500EC8D7E /* network.c in Sources */ = {isa = PBXBuildFile; fileRef = A7CD81DB14ECDB6500EC8D7E /* network.c */; };
@@ -63,6 +64,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A7919BDC15A5181500D4F36D /* ofxLibArtnet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxLibArtnet.cpp; sourceTree = "<group>"; };
 		A7CD81B614EC8C9700EC8D7E /* ofxLibArtnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxLibArtnet.h; sourceTree = "<group>"; };
 		A7CD81D214ECDB6500EC8D7E /* artnet.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = artnet.c; sourceTree = "<group>"; };
 		A7CD81D314ECDB6500EC8D7E /* artnet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = artnet.h; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* testApp.h */,
 				A7CD81B614EC8C9700EC8D7E /* ofxLibArtnet.h */,
+				A7919BDC15A5181500D4F36D /* ofxLibArtnet.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -330,6 +333,7 @@
 				A7CD81E614ECDB6500EC8D7E /* receive.c in Sources */,
 				A7CD81E714ECDB6500EC8D7E /* tod.c in Sources */,
 				A7CD81E814ECDB6500EC8D7E /* transmit.c in Sources */,
+				A7919BDD15A5181500D4F36D /* ofxLibArtnet.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,7 +492,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_52)",
 				);
-				OF_PATH = /Applications/_of/OF_007;
+				OF_PATH = /Applications/_of/openFrameworks;
 				PREBINDING = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
 				WRAPPER_EXTENSION = app;
@@ -582,7 +586,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_50)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_51)",
 				);
-				OF_PATH = /Applications/_of/OF_007;
+				OF_PATH = /Applications/_of/openFrameworks;
 				PREBINDING = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
