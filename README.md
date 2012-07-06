@@ -12,4 +12,12 @@ http://www.opendmx.net/index.php/IPad_ArtNet_Node
 Thanks to help from the OLA community
 
 
+#INSTALLATION
+
+* Copy the folder to your OF addons subfolder
+* Include ofxLibArtnet in your OF project (removing the example subfolder).
+* Add the libs subfolder as a recursive header search path in your project settings (e.g. $OF_PATH/addons/ofxLibArtnet/libs/**)
+* Add the preprocessor macro "HAVE_CONFIG_H" to your project settings.
+
+
 
