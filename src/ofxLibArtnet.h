@@ -44,7 +44,7 @@ class Node
 public:
     
     void    addUniverses(int _num);
-    void    setup(char *_ip_addr, bool _sendRaw = false, uint8_t _subnet_addr = 0);
+    void    setup(string _ip_addr, bool _sendRaw = false, uint8_t _subnet_addr = 0);
     
     void    updateData(unsigned char * _data, int _length);
     void    updateDataByIndex(int _index, unsigned char * _data, int _length);
@@ -70,7 +70,7 @@ public:
 private:
     
     artnet_node         artnetNode;
-    char                *ip_addr;
+    string              ip_addr;
     uint8_t             subnet_addr; 
     bool                sendRaw;
     vector<Universe>    unis;

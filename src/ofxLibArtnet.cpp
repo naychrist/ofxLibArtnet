@@ -15,13 +15,13 @@ void Node::addUniverses(int _num) {
     
 }
 
-void Node::setup(char *_ip_addr, bool _sendRaw, uint8_t _subnet_addr)
+void Node::setup(string _ip_addr, bool _sendRaw, uint8_t _subnet_addr)
 {
     ip_addr = _ip_addr;
     subnet_addr = _subnet_addr;
     sendRaw = _sendRaw;
     
-    artnetNode  = artnet_new(ip_addr, 1);
+    artnetNode  = artnet_new(ip_addr.c_str(), 0);//int = verbose
     //@todo: allow for multiple nodes then artnet_join(artnetNode1, artnetNodeN)
     
     if (!artnetNode) {
