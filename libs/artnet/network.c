@@ -141,7 +141,7 @@ static int get_ifaces(iface_t **if_head) {
        pAdapter && pAdapter < pAdapterInfo + ulOutBufLen;
        pAdapter = pAdapter->Next) {
 
-    if(pAdapter->Type != MIB_IF_TYPE_ETHERNET)
+    if(pAdapter->Type != MIB_IF_TYPE_ETHERNET && pAdapter->Type != IF_TYPE_IEEE80211)
       continue;
 
     for (ipAddress = &pAdapter->IpAddressList; ipAddress;
@@ -384,6 +384,7 @@ static int get_ifaces(iface_t **if_head) {
     }
   }
   free(buf);
+  close(sd);
   return ARTNET_EOK;
 
 e_free_list:
@@ -429,7 +430,7 @@ int artnet_net_init(node n, const char *preferred_ip) {
     printf("#########################\n");
   }
 
-  if (preferred_ip) {
+  if (preferred_ip && preferred_ip[0] != '\0') {
     // search through list of interfaces for one with the correct address
     ret = artnet_net_inet_aton(preferred_ip, &wanted_ip);
     if (ret)
@@ -507,13 +508,6 @@ int artnet_net_start(node n) {
     if (n->state.verbose)
       printf("Binding to %s \n", inet_ntoa(servAddr.sin_addr));
 
-    // bind sockets
-    if (bind(sock, (SA *) &servAddr, sizeof(servAddr)) == -1) {
-      artnet_error("Failed to bind to socket %s", artnet_net_last_error());
-      artnet_net_close(sock);
-      return ARTNET_ENET;
-    }
-
     // allow bcasting
     if (setsockopt(sock,
                    SOL_SOCKET,
@@ -547,7 +541,29 @@ int artnet_net_start(node n) {
       artnet_net_close(sock);
       return ARTNET_ENET;
     }
+#else
+// allow reusing 6454 port _ 
+    if (setsockopt(sock,
+                   SOL_SOCKET,
+                   SO_REUSEPORT,
+                   (char*) &true_flag, // char* for win32
+                   sizeof(int)) == -1) {
+      artnet_error("Failed to bind to socket %s", artnet_net_last_error());
+      artnet_net_close(sock);
+      return ARTNET_ENET;
+    }
 #endif
+
+    if (n->state.verbose)
+      printf("Binding to %s \n", inet_ntoa(servAddr.sin_addr));
+
+    // bind sockets
+    if (bind(sock, (SA *) &servAddr, sizeof(servAddr)) == -1) {
+      artnet_error("Failed to bind to socket %s", artnet_net_last_error());
+      artnet_net_close(sock);
+      return ARTNET_ENET;
+    }
+
 
     n->sd = sock;
     // Propagate the socket to all our peers
@@ -717,7 +733,8 @@ int artnet_net_inet_aton(const char *ip_address, struct in_addr *address) {
   if (!inet_aton(ip_address, address)) {
 #else
   in_addr_t *addr = (in_addr_t*) address;
-  if ((*addr = inet_addr(ip_address)) == INADDR_NONE) {
+  if ((*addr = inet_addr(ip_address)) == INADDR_NONE &&
+      strcmp(ip_address, "255.255.255.255")) {
 #endif
     artnet_error("IP conversion from %s failed", ip_address);
     return ARTNET_EARG;
