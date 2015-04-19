@@ -648,12 +648,20 @@ int artnet_send_dmx(artnet_node vn,
     if ((ret = artnet_net_send(n, &p)))
       return ret;
   } else {
+    int nodes;
     // find the number of ports for this uni
     SI *ips = malloc(sizeof(SI) * n->state.bcast_limit);
-    int nodes = find_nodes_from_uni(&n->node_list,
-                                    port->port_addr,
-                                    ips,
-                                    n->state.bcast_limit);
+
+    if (!ips) {
+      // Fallback to broadcast mode
+      if ((ret = artnet_net_send(n, &p)))
+        return ret;
+    }
+
+    nodes = find_nodes_from_uni(&n->node_list,
+                                port->port_addr,
+                                ips,
+                                n->state.bcast_limit);
 
     if (nodes > n->state.bcast_limit) {
       // fall back to broadcast
@@ -1361,8 +1369,8 @@ int artnet_dump_config(artnet_node vn) {
   printf("Node Type: %i\n", n->state.node_type);
   printf("Short Name: %s\n", n->state.short_name);
   printf("Long Name: %s\n", n->state.long_name);
-  printf("Subnet: %#hx\n", n->state.subnet);
-  printf("Default Subnet: %#hx\n", n->state.default_subnet);
+  printf("Subnet: %#02x\n", n->state.subnet);
+  printf("Default Subnet: %#02x\n", n->state.default_subnet);
   printf("Net Ctl: %i\n", n->state.subnet_net_ctl);
   printf("#####################\n");
 
@@ -1607,13 +1615,12 @@ void copy_apr_to_node_entry(artnet_node_entry e, artnet_reply_t *reply) {
  * find a node_entry in the node list
  */
 node_entry_private_t *find_private_entry(node n, artnet_node_entry e) {
+  node_entry_private_t *tmp;
   if (!e)
     return NULL;
 
-  node_entry_private_t *tmp;
-
   // check if this packet is in list
-  for(tmp = n->node_list.first; tmp; tmp = tmp->next) {
+  for (tmp = n->node_list.first; tmp; tmp = tmp->next) {
     if (!memcmp(&e->ip, &tmp->pub.ip, 4))
       break;
   }
