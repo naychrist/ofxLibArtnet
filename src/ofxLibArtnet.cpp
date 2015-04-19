@@ -15,7 +15,7 @@ void Node::addUniverses(int _num) {
     
 }
 
-void Node::setup(string _ip_addr, bool _sendRaw, uint8_t _subnet_addr)
+bool Node::setup(string _ip_addr, bool _sendRaw, uint8_t _subnet_addr)
 {
     ip_addr = _ip_addr;
     subnet_addr = _subnet_addr;
@@ -26,7 +26,8 @@ void Node::setup(string _ip_addr, bool _sendRaw, uint8_t _subnet_addr)
     
     if (!artnetNode) {
         printf("Error: %s\n", artnet_strerror());
-        std::exit(-1);
+        //std::exit(-1);
+        return false;
     }
     
     artnet_set_long_name(artnetNode, "ofxLibArtnet");
@@ -55,9 +56,11 @@ void Node::setup(string _ip_addr, bool _sendRaw, uint8_t _subnet_addr)
     
     if (artnet_start(artnetNode) != 0) {
         printf("Error: %s\n", artnet_strerror());
-        std::exit(-1);
+        //std::exit(-1);
+        return false;
     }  
     
+    return true;
 };
 
 void Node::updateData(unsigned char * _data, int _length) {
